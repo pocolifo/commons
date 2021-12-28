@@ -25,6 +25,10 @@ Common utilities for Java applications
 #### Resource utilities
 - Get a resource as a File object
 
+#### Hashing utilities
+- SHA-1, SHA-256, SHA-384, SHA-512, MD5
+- Hexadecimal conversion
+
 
 ## Coming Soon
 - We'll see! Submit a suggestion inside issues.
