@@ -1,0 +1,79 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'de.undercouch.download' version '4.1.2'
+}
+
+group 'com.pocolifo'
+version '1.0.0'
+
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.jetbrains:annotations:23.0.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
+
+    doFirst {
+        download {
+            src 'https://jsonplaceholder.typicode.com/users'
+            dest 'src/test/resources/jsonplaceholder-typicode-users.json'
+            onlyIfModified true
+        }
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            pom {
+                name = 'Commons'
+                description = 'Common utilities for Java applications'
+                artifactId = 'commons'
+                version = System.getenv("RELEASE_VERSION")
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://spdx.org/licenses/MIT.html'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'youngermax'
+                    }
+                }
+            }
+
+            from components['java']
+        }
+    }
+
+    repositories {
+        repositories {
+            maven {
+                url System.getenv("REPO_URL")
+                name 'pocolifo'
+
+                credentials {
+                    username = System.getenv("REPO_USERNAME")
+                    password = System.getenv("REPO_PASSWORD")
+                }
+
+                authentication {
+                    basic(BasicAuthentication)
+                }
+            }
+        }
+    }
+}
