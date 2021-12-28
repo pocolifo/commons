@@ -18,9 +18,11 @@ public class StreamCommons {
 	public static byte[] readInputStream(@NotNull InputStream stream) throws IOException {
 		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
 			byte[] buffer = new byte[1024];
+			int length = stream.read(buffer);
 
-			for (int i; (i = stream.read(buffer)) != -1;) {
-				outputStream.write(buffer, 0, i);
+			while (length >= 0) {
+				outputStream.write(buffer, 0, length);
+				length = stream.read(buffer);
 			}
 
 			return outputStream.toByteArray();
