@@ -27,12 +27,14 @@ public class FileCommons {
 		assert directory.isDirectory();
 
 		for (File file : directory.listFiles()) {
-			if (file.isFile()) {
-				deleteFiles(file);
-			} else if (file.isDirectory()) {
+			if (file.isDirectory()) {
 				deleteDirectoryRecursive(file);
+			} else {
+				deleteFiles(file);
 			}
 		}
+
+		directory.delete();
 	}
 
 	/**

@@ -20,16 +20,16 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
+processResources {
+    download {
+        src 'https://jsonplaceholder.typicode.com/users'
+        dest 'src/test/resources/jsonplaceholder-typicode-users.json'
+        onlyIfModified true
+    }
+}
+
 test {
     useJUnitPlatform()
-
-    doFirst {
-        download {
-            src 'https://jsonplaceholder.typicode.com/users'
-            dest 'src/test/resources/jsonplaceholder-typicode-users.json'
-            onlyIfModified true
-        }
-    }
 }
 
 publishing {

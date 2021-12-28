@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import com.pocolifo.commons.ArchiveCommons;
 import com.pocolifo.commons.ResourceCommons;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 class ArchiveCommonsTest {
