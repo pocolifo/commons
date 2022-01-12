@@ -4,6 +4,7 @@ import java.awt.SystemColor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Objects;
 import java.util.function.Function;
@@ -14,6 +15,58 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ArchiveCommons {
+	/**
+	 * Extracts a zip file
+	 *
+	 * @param inputStream ZipInputStream for the zip file
+	 * @param toDirectory Directory to extract files to
+	 * @param naming Rename files that are being extracted
+	 * @param pathChecking If true, the entire path of a file must match the <p>extractOnly</p> argument. If false, the
+	 *                     file name will be matched.
+	 * @param extractOnly Extract certain files only. See <p>pathChecking</p>.
+	 * @throws IOException Could not extract zip
+	 */
+	public static void extractZip(ZipInputStream inputStream, @NotNull File toDirectory,
+								  @NotNull Function<String, String> naming, boolean pathChecking,
+								  @Nullable String... extractOnly) throws IOException {
+		for (ZipEntry entry; (entry = inputStream.getNextEntry()) != null;) {
+			boolean extractingFile = false;
+
+			if (extractOnly == null || 1 > extractOnly.length) {
+				extractingFile = true;
+			} else {
+				for (String file : extractOnly) {
+					file = Objects.requireNonNull(file);
+
+					extractingFile = (pathChecking && file.equals(entry.getName())) ||
+							(!pathChecking && file.equals(FileCommons.getFileName(entry.getName())));
+					break;
+				}
+			}
+
+			if (extractingFile) {
+				File writeOutFile = new File(toDirectory,
+					naming.apply(FileCommons.normalizeFileSeparators(entry.getName())));
+
+				boolean valid = writeOutFile.getCanonicalPath()
+					.startsWith(toDirectory.getCanonicalPath() + File.separator);
+
+				// protect against zip slip
+				if (!valid) {
+					throw new SecurityException("(zip slip detected) Entry outside of target directory: "
+							+ entry.getName());
+				}
+
+				if (entry.isDirectory()) {
+					Files.createDirectories(writeOutFile.toPath());
+				} else {
+					FileCommons.createDirectoriesForFile(writeOutFile);
+					Files.write(writeOutFile.toPath(), StreamCommons.readInputStream(inputStream));
+				}
+			}
+		}
+	}
+
 	/**
 	 * Extracts a zip file
 	 *
@@ -34,40 +87,7 @@ public class ArchiveCommons {
 		assert toDirectory.exists();
 
 		try (ZipInputStream inputStream = new ZipInputStream(new FileInputStream(zipFile))) {
-			for (ZipEntry entry; (entry = inputStream.getNextEntry()) != null;) {
-				boolean extractingFile = false;
-
-				if (extractOnly == null || 1 > extractOnly.length) {
-					extractingFile = true;
-				} else {
-					for (String file : extractOnly) {
-						file = Objects.requireNonNull(file);
-
-						extractingFile = (pathChecking && file.equals(entry.getName())) ||
-								(!pathChecking && file.equals(FileCommons.getFileName(entry.getName())));
-						break;
-					}
-				}
-
-				if (extractingFile) {
-					File writeOutFile = new File(toDirectory,
-							naming.apply(FileCommons.normalizeFileSeparators(entry.getName())));
-
-					boolean valid = writeOutFile.getCanonicalPath()
-							.startsWith(toDirectory.getCanonicalPath() + File.separator);
-
-//					System.out.println(writeOutFile.getCanonicalPath() + ": " + valid);
-
-					// protect against zip slip
-					if (!valid) {
-						throw new SecurityException("(zip slip detected) Entry outside of target directory: "
-								+ entry.getName());
-					}
-
-					FileCommons.createDirectoriesForFile(writeOutFile);
-					Files.write(writeOutFile.toPath(), StreamCommons.readInputStream(inputStream));
-				}
-			}
+			extractZip(inputStream, toDirectory, naming, pathChecking, extractOnly);
 		}
 	}
 

@@ -50,4 +50,26 @@ class ArchiveCommonsTest {
 		Files.copy(Constants.ZIP_FILE.toPath(), toExtract.toPath());
 		ArchiveCommons.extractZip(toExtract);
 	}
+
+	@Test
+	void extractZipWithDirectories() throws IOException {
+		File extraction = new File(Constants.TEMP_DIR, "extract-dirs");
+		extraction.mkdirs();
+
+		ArchiveCommons.extractZip(Constants.ZIP_FILE_WITH_DIRS, extraction);
+
+		File sample = new File(extraction, "sample.txt");
+
+		File sample1_dir = new File(extraction, "sample1");
+		File sample1_file = new File(sample1_dir,"sample1.txt");
+
+		File sample2_dir = new File(extraction, "sample2");
+		File sample2_file = new File(sample2_dir, "sample2.txt");
+
+		Assertions.assertTrue(
+				sample.isFile()
+				&& sample1_dir.isDirectory() && sample1_file.isFile()
+				&& sample2_dir.isDirectory() && sample2_file.isFile()
+		);
+	}
 }

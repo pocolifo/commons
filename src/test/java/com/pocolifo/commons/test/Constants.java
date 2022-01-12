@@ -18,11 +18,13 @@ public class Constants {
 
 	public static File TEMP_DIR;
 	public static File ZIP_FILE;
+	public static File ZIP_FILE_WITH_DIRS;
 
 	static {
 		try {
 			TEMP_DIR = Files.createTempDirectory("pocolifo-commons-test-temp").toFile();
 			ZIP_FILE = ResourceCommons.getResourceAsFile(Constants.class, "sample.zip");
+			ZIP_FILE_WITH_DIRS = ResourceCommons.getResourceAsFile(Constants.class, "sample2.zip");
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
