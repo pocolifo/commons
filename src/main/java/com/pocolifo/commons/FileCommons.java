@@ -1,8 +1,11 @@
 package com.pocolifo.commons;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -94,5 +97,29 @@ public class FileCommons {
 	 */
 	public static void createDirectoriesForFile(@NotNull File file) throws IOException {
 		if (!file.getParentFile().isDirectory()) Files.createDirectories(file.getParentFile().toPath());
+	}
+
+	/**
+	 * Reads the first line of a file
+	 *
+	 * @param path The Path of the file to read
+	 * @return The first line of the file as a String
+	 * @throws IOException File could not be read
+	 */
+	public static String readFirstLine(@NotNull Path path) throws IOException {
+		try (BufferedReader bufferedReader = Files.newBufferedReader(path)) {
+			return bufferedReader.readLine();
+		}
+	}
+
+	/**
+	 * Reads the first line of a file
+	 *
+	 * @param file The file to be read
+	 * @return The first line of the file as a String
+	 * @throws IOException File could not be read
+	 */
+	public static String readFirstLine(@NotNull File file) throws IOException {
+		return readFirstLine(file.toPath());
 	}
 }

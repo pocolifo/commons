@@ -80,4 +80,9 @@ class FileCommonsTest {
 
 		Assertions.assertTrue(works);
 	}
+
+	@Test
+	void readFirstLine() throws IOException {
+		Assertions.assertEquals(FileCommons.readFirstLine(Constants.MULTI_LINE_FILE), Constants.MULTI_LINE_L1);
+	}
 }
