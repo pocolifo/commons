@@ -7,7 +7,8 @@ plugins {
 group 'com.pocolifo'
 version '1.1.0'
 
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -44,7 +45,7 @@ publishing {
                 name = 'Commons'
                 description = 'Common utilities for Java applications'
                 artifactId = 'commons'
-                version = System.getenv("RELEASE_VERSION")
+                version = System.getenv("RELEASE_VERSION") == null ? project.version : System.getenv("RELEASE_VERSION")
 
                 licenses {
                     license {
