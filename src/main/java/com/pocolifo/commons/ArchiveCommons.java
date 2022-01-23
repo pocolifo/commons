@@ -26,7 +26,7 @@ public class ArchiveCommons {
 	 * @param extractOnly Extract certain files only. See <p>pathChecking</p>.
 	 * @throws IOException Could not extract zip
 	 */
-	public static void extractZip(ZipInputStream inputStream, @NotNull File toDirectory,
+	public static void extractZip(@NotNull ZipInputStream inputStream, @NotNull File toDirectory,
 								  @NotNull Function<String, String> naming, boolean pathChecking,
 								  @Nullable String... extractOnly) throws IOException {
 		for (ZipEntry entry; (entry = inputStream.getNextEntry()) != null;) {
