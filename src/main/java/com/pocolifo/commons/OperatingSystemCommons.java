@@ -15,6 +15,12 @@ public class OperatingSystemCommons {
 		}
 	}
 
+	/**
+	 * Gets the operating system of the host computer
+	 *
+	 * @return The current operating system of the host
+	 * @see OperatingSystems
+	 */
 	public static OperatingSystems getHostOperatingSystem() {
 		String osName = System.getProperty("os.name").toLowerCase();
 
