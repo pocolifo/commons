@@ -15,6 +15,9 @@ public class FileCommons {
 	 */
 	public static final String SEPARATOR = "/";
 
+	/**
+	 * All different separators for all operating systems
+	 */
 	public static final String[] ALL_SEPARATORS = {
 			"\\\\",
 			"/"
