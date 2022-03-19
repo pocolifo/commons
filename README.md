@@ -49,7 +49,7 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation 'com.pocolifo:commons:1.0.0'
+    implementation 'com.pocolifo:commons:1.2.1'
 }
 ```
 
