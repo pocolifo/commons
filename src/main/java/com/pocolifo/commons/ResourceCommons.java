@@ -8,7 +8,7 @@ public class ResourceCommons {
 	/**
 	 * Get a resource as a File object
 	 *
-	 * @param clazz Class to <p>getResource</p> from
+	 * @param clazz Class to {@link Class#getResource} from
 	 * @param resourcePath Path of resource to get as a File
 	 * @return Resource as a File object
 	 * @throws URISyntaxException Could not get resource as File

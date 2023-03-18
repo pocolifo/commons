@@ -2,16 +2,18 @@ package com.pocolifo.commons;
 
 public class OperatingSystemCommons {
 	public enum OperatingSystems {
-		LINUX("linux"),
-		WINDOWS("windows"),
-		MACOS("mac"),
-		SOLARIS("sunos"),
-		FREEBSD("freebsd");
+		LINUX("linux", "Linux"),
+		WINDOWS("windows", "Windows"),
+		MACOS("mac", "macOS"),
+		SOLARIS("sunos", "SunOS"),
+		FREEBSD("freebsd", "FreeBSD");
 
 		private final String id;
+		public final String niceName;
 
-		OperatingSystems(String id) {
+		OperatingSystems(String id, String niceName) {
 			this.id = id;
+			this.niceName = niceName;
 		}
 	}
 

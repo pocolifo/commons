@@ -13,14 +13,11 @@ Common utilities for Java applications
 - Download remote content and write them to file
 - Get an instance of a URL without having to handle an exception
 
-
 #### Stream utilities
 - Read InputStreams easily
 
-
 #### Operating system utilities
 - Detect the host operating system
-
 
 #### Resource utilities
 - Get a resource as a File object
@@ -34,7 +31,6 @@ Common utilities for Java applications
 - We'll see! Submit a suggestion inside issues.
 
 ## Getting Started
-
 Add the Pocolifo repository and Commons dependency
 
 ### Gradle
@@ -56,6 +52,6 @@ dependencies {
 ## Develop
 - Clone this repository
 - Open the project in IntelliJ IDEA or another editor
-- Add an environment variable called `RUNNER_OS` inside the `test` Gradle task. Set it to your OS. For more information,
-  see [GitHub's docs](https://docs.github.com/en/actions/learn-github-actions/environment-variables#default-environment-variables).
+- Add an environment variable called `RUNNER_OS` inside the `test` Gradle task. Set it to your OS. Can be `Linux`, `Windows`, or `macOS`.
+  For more information, see [GitHub's docs](https://docs.github.com/en/actions/learn-github-actions/environment-variables#default-environment-variables).
 - Get developing!
